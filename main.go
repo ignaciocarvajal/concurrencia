@@ -2,23 +2,40 @@ package main
 
 import (
 	"fmt"
+	"sync"
+	"time"
 )
+
+var wg sync.WaitGroup
 
 //Gorutinas
 func main() {
 	name := "Rappi"
-	done := make(chan bool, 1)
-	go sayHello(name, done)
-	<-done
-	sayBye(name)
+	wg.Add(2)
+
+	var hello, bye string
+
+	go func() {
+		defer wg.Done()
+		hello = sayHello(name)
+	}()
+
+	go func() {
+		defer wg.Done()
+		bye = sayBye(name)
+	}()
+
+	wg.Wait()
+	fmt.Println(hello)
+	fmt.Println(bye)
 }
 
-func sayHello(name string, done chan bool) {
-	fmt.Printf("Hello %s \n", name)
-	done <- true
+func sayHello(name string) string {
+	time.Sleep(time.Second * 3)
+	return fmt.Sprintf("Hello %s", name)
 }
 
-func sayBye(name string) {
-	fmt.Printf("Bye %s \n", name)
-
+func sayBye(name string) string {
+	time.Sleep(time.Second * 1)
+	return fmt.Sprintf("Bye %s", name)
 }
