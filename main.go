@@ -20,4 +20,5 @@ func sayHello(name string, done chan bool) {
 
 func sayBye(name string) {
 	fmt.Printf("Bye %s \n", name)
+
 }
