@@ -4,10 +4,6 @@ import (
 	"fmt"
 )
 
-
-
-
-
 //Gorutinas
 func main() {
 	name := "Rappi"
